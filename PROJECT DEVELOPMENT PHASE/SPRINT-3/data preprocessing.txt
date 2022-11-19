@@ -1,0 +1,49 @@
+import pandas as pd
+import numpy as np
+from scipy import stats
+import matplotlib.pyplot as plt
+import seaborn as sns
+import statsmodels.api as sm
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from xgboost.sklearn import XGBRegressor
+from sklearn.metrics import mean_squared_error
+from sklearn.metrics import accuracy_score
+
+data = pd.read_csv("C:/Users/HP/Downloads/flightdata.csv")
+data.head()
+
+data.shape
+
+data.isnull().sum()
+
+data=data.drop('Unnamed: 25',axis=1)
+
+data['DEST'].unique()
+
+sns.scatterplot(x='ARR_DELAY',y='ARR_DEL15',data=data)
+
+sns.catplot(x='ARR_DEL15',y='ARR_DELAY',kind='bar',data=data)
+
+sns.heatmap(data.corr())
+
+datas=data[["MONTH","DAY_OF_MONTH","DAY_OF_WEEK","FL_NUM","ORIGIN","DEST","DEP_DEL15","CRS_ARR_TIME","ARR_DEL15"]]
+data.isnull().sum()
+
+datas=datas.fillna({'ARR_DEL15':1})
+datas=datas.fillna({'DEP_DEL15':0})
+datas.iloc[177:185]
+
+x=datas.iloc[:,0:8].values
+y=datas.iloc[:,8:9].values
+
+from sklearn.preprocessing import OneHotEncoder
+s=OneHotEncoder()
+z=s.fit_transform(x[:,4:5]).toarray()
+a=s.fit_transform(x[:,5:6]).toarray()
+
+data=pd.get_dummies(datas)
