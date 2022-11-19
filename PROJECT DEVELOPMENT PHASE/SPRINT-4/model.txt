@@ -1,0 +1,41 @@
+def func(x,y):
+    x_train,x_test,y_train,y_test= train_test_split(x,y,train_size = 0.8, test_size = 0.2,random_state =42)
+    rmse=[]
+    S=[]
+    #Linear regression
+    model=LinearRegression().fit(x_train,y_train)
+    y_predicted1=model.predict(x_test)
+    S.append(model.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted1,squared=False))
+    #DecisionTreeRegression
+    model1=DecisionTreeRegressor().fit(x_train,y_train)
+    y_predicted2=model1.predict(x_test)
+    S.append(model1.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted2,squared=False))
+    #RandomForestRegressor
+    model2=RandomForestRegressor(n_estimators=100,max_depth=2).fit(x_train,y_train)
+    y_predicted3=model2.predict(x_test)
+    S.append(model2.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted3,squared=False))
+    #GradientBoostingRegressor
+    model3=GradientBoostingRegressor(n_estimators=100,max_depth=2).fit(x_train,y_train)
+    y_predicted4=model3.predict(x_test)
+    S.append(model3.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted4,squared=False))
+    #AdaBoostRegressor
+    model4 = AdaBoostRegressor().fit(x_train,y_train)
+    y_predicted5=model4.predict(x_test)
+    S.append(model4.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted5,squared=False))
+    # XGBoost model
+    model5 = XGBRegressor().fit(x_train, y_train)
+    y_predicted6=model5.predict(x_test)
+    S.append(model5.score(x_test,y_test))
+    rmse.append(mean_squared_error(y_test,y_predicted6,squared=False))
+    print("score=",S)
+    return rmse
+result=[]
+name=['LINEAR REGRESSION', 'DECISION TREE REGRESSION', 'RANDOM FOREST REGRESSION', 'GRADIENT BOOSTING REGRESSION', 'ADABOOST REGRESSION','XGBOOST']
+result=func(x,y)
+print(result)
+print('\033[1m',name[result.index(min(result))],"is the best fit model with a RMSE of ",min(result),'\033[0m')
